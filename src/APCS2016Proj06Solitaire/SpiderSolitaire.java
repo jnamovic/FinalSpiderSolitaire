@@ -85,7 +85,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	public static void main(String[] args) {
 		new SpiderSolitaire().start(args);
 	}
-	
+	//gfs
 	/**
 	 * Initializes the deck on the canvas and sets up event handling.
 	 */

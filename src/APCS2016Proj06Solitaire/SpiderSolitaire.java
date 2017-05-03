@@ -99,6 +99,8 @@ public class SpiderSolitaire extends GraphicsProgram {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals("Give Up")) 
 					communicate.setText("You lost, better luck next time");
+				else
+					communicate.setText("Go Get em Tiger");
 	        		packs.clear();// clears the packs ArrayList
 	        		piles.clear();//clears the piles ArrayList
 	        		removeAll();//removes all objects from the canvas

@@ -73,7 +73,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	private static final int START_DEAL=54;//the starting amount of cards dealt
 	private static final int PACKS_NEEDED=5;//the starting amount of cards dealt
 	private static final int CARDS_IN_PACKS=10;//the starting amount of cards dealt
-	
+	private static boolean goneYet=false;
 	JButton newgamebtn;//the button to start a new game
 	JComboBox<String> difficult;//the combo box to set the difficulty
 	JLabel communicate=new JLabel("Welcome to Solitaire");//a label used to send messages to the player
@@ -97,10 +97,13 @@ public class SpiderSolitaire extends GraphicsProgram {
 		add(newgamebtn = new JButton("New Game"), SOUTH);// adds the "new game" button to the southern border 
 		ActionListener buttonlistener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (e.getActionCommand().equals("New Game")) 
+				if (e.getActionCommand().equals("Give Up")) 
+					communicate.setText("You lost, better luck next time");
 	        		packs.clear();// clears the packs ArrayList
 	        		piles.clear();//clears the piles ArrayList
 	        		removeAll();//removes all objects from the canvas
+	        		newgamebtn.setText("New Game");
+	        		goneYet=false;
 	        		setUp(getDifficulty());;//sets the game up depending on the currently selected difficulty
 			}
 		};
@@ -203,6 +206,9 @@ public class SpiderSolitaire extends GraphicsProgram {
 					piles.get(i).add(packs.get(packs.size()-1).getDeck().deal());//adds the top card from the deck selected to each pile
 				}
 				packs.remove(packs.size()-1);	
+				goneYet=true;
+				if(goneYet)
+					newgamebtn.setText("Give Up");
 			}	
 		}
 		removeAll();

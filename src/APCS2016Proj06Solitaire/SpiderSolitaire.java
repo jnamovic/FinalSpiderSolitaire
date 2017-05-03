@@ -214,6 +214,11 @@ public class SpiderSolitaire extends GraphicsProgram {
 		
 					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
 		}
+		
+	}
+	
+	public void mouseDragged(MouseEvent e) {
+		
 	}
 	
 }

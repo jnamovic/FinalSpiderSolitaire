@@ -13,4 +13,7 @@ public class Pile extends GCompound {
 			add((GCard)cards.get(x),0,YSPACE*x);
 		}
 	}
+	//public ArrayList getDeck(){
+		
+//	}
 }

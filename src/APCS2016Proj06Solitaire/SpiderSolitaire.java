@@ -106,6 +106,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	        		removeAll();//removes all objects from the canvas
 	        		newgamebtn.setText("New Game");
 	        		goneYet=false;
+	        		//jlkasdfljkasdfjkl;
 	        		setUp(getDifficulty());;//sets the game up depending on the currently selected difficulty
 			}
 		};

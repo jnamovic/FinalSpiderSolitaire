@@ -74,12 +74,14 @@ public class SpiderSolitaire extends GraphicsProgram {
 	private static final int PACKS_NEEDED=5;//the starting amount of cards dealt
 	private static final int CARDS_IN_PACKS=10;//the starting amount of cards dealt
 	private static boolean goneYet=false;
+	private static int movePilePos;
+	private static int movePileNum;
 	JButton newgamebtn;//the button to start a new game
 	JComboBox<String> difficult;//the combo box to set the difficulty
 	JLabel communicate=new JLabel("Welcome to Solitaire");//a label used to send messages to the player
 	
 	Pack startPack;//the starting pack
-	
+	private Pile movePile=new Pile(new Deck());
 	ArrayList<GDeck> packs=new ArrayList<GDeck>();//an ArrayList of the packs made at the beginning of the game
 	ArrayList<Pile> piles=new ArrayList<Pile>();//an ArrayList of the card piles 
 	public static void main(String[] args) {
@@ -227,31 +229,31 @@ public class SpiderSolitaire extends GraphicsProgram {
 	}
 	
 	public void mouseDragged(MouseEvent e) {
-//		for (int x=0;x<piles.size();x++){
-//			int cardloc=-1;
-//			for (int i=0;i<piles.get(x).getCards().size();i++){
-//			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
-//				
-//				cardloc=i;
-//				System.out.println(cardloc);
-//				
-//			}System.out.println(cardloc);
-//			}	
-//		}
+		if(movePileNum>=0)
+		for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();x++){
+		movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
+		}
 	}
+	
 	public void mousePressed(MouseEvent e) {
-		int cardloc=-1;
+		movePilePos=-1;
+		movePileNum=-1;
 		for (int x=0;x<piles.size();x++){
 			
 			for (int i=0;i<piles.get(x).getCards().size();i++){
 			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
-				System.out.println("I am pile number "+x);
-				cardloc=i;
-				System.out.println("the card is at spot" +cardloc);
+				
+				movePilePos=i;
+				movePileNum=x;
+				
 				
 			}
 			}	
-		}System.out.println(cardloc);
+		}
+		if(movePileNum>=0)
+			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();x++){
+			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
+			}
 	}
 }
 

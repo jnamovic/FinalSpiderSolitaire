@@ -81,7 +81,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	Pack startPack;//the starting pack
 	
 	ArrayList<GDeck> packs=new ArrayList<GDeck>();//an ArrayList of the packs made at the beginning of the game
-	ArrayList<Deck> piles=new ArrayList<Deck>();//an ArrayList of the card piles 
+	ArrayList<Pile> piles=new ArrayList<Pile>();//an ArrayList of the card piles 
 	public static void main(String[] args) {
 		new SpiderSolitaire().start(args);
 	}
@@ -151,18 +151,18 @@ public class SpiderSolitaire extends GraphicsProgram {
 		startPack=new Pack(diff);//creates a pack based on the difficulty given
 		startPack.shuffle();// shuffles the pack
 		for(int x=0;x<MAX_ROWS;x++){//adds decks to the "piles" ArrayList up to the maximum number of desired rows
-			piles.add(new Deck());
+			piles.add(new Pile( new Deck()));
 		}
 		
 		for(int x=0; x<START_DEAL; x++){//runs a for loop for however cards are desired to be dealt from the pack	
 			if(x>=START_DEAL-MAX_ROWS)//flips the last card in every row
 				startPack.get(0).turnFaceUp();
-			piles.get(x%MAX_ROWS).add(startPack.deal());//adds the top card from the pack to a pile
+			piles.get(x%MAX_ROWS).getCards().add(startPack.deal());//adds the top card from the pack to a pile
 		}
 		
 		for(int x=0; x<piles.size();x++){//runs for the amount of piles
-			for(int i=0;i<piles.get(x).size();i++)//runs for the size of the deck in piles
-			add((GObject)piles.get(x).get(i),(((GCard)piles.get(x).get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
+			for(int i=0;i<piles.get(x).getCards().size();i++)//runs for the size of the deck in piles
+			add((GObject)piles.get(x).getCards().get(i),(((GCard)piles.get(x).getCards().get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
 		}
 			
 		makePacks();
@@ -205,7 +205,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 				int dealnum=packs.get(packs.size()-1).getDeck().size();//sets dealnum equal to  
 				for(int i=0; i<dealnum; i++){//runs a for loop for however cards are meant to be dealt
 					packs.get(packs.size()-1).getDeck().get(0).turnFaceUp();	//turns the card about to be dealt face up
-					piles.get(i).add(packs.get(packs.size()-1).getDeck().deal());//adds the top card from the deck selected to each pile
+					piles.get(i).getCards().add(packs.get(packs.size()-1).getDeck().deal());//adds the top card from the deck selected to each pile
 				}
 				packs.remove(packs.size()-1);	
 				goneYet=true;
@@ -215,19 +215,43 @@ public class SpiderSolitaire extends GraphicsProgram {
 		}
 		removeAll();
 		for(int x=0; x<piles.size();x++){
-					for(int i=0;i<piles.get(x).size();i++)
-					add((GObject)piles.get(x).get(i),(((GCard)piles.get(x).get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
+					for(int i=0;i<piles.get(x).getCards().size();i++)
+					add((GObject)piles.get(x).getCards().get(i),(((GCard)piles.get(x).getCards().get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
 				}
 		for(int x=0;x<packs.size();x++){
 		
 					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
 		}
 		
-	}
-	
-	public void mouseDragged(MouseEvent e) {
 		
 	}
 	
+	public void mouseDragged(MouseEvent e) {
+//		for (int x=0;x<piles.size();x++){
+//			int cardloc=-1;
+//			for (int i=0;i<piles.get(x).getCards().size();i++){
+//			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
+//				
+//				cardloc=i;
+//				System.out.println(cardloc);
+//				
+//			}System.out.println(cardloc);
+//			}	
+//		}
+	}
+	public void mousePressed(MouseEvent e) {
+		int cardloc=-1;
+		for (int x=0;x<piles.size();x++){
+			
+			for (int i=0;i<piles.get(x).getCards().size();i++){
+			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
+				System.out.println("I am pile number "+x);
+				cardloc=i;
+				System.out.println("the card is at spot" +cardloc);
+				
+			}
+			}	
+		}System.out.println(cardloc);
+	}
 }
 

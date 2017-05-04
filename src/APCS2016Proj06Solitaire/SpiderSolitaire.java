@@ -76,6 +76,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	private static boolean goneYet=false;
 	private static int movePilePos;
 	private static int movePileNum;
+	private static int dropPile;
 	JButton newgamebtn;//the button to start a new game
 	JComboBox<String> difficult;//the combo box to set the difficulty
 	JLabel communicate=new JLabel("Welcome to Solitaire");//a label used to send messages to the player
@@ -251,9 +252,22 @@ public class SpiderSolitaire extends GraphicsProgram {
 			}	
 		}
 		if(movePileNum>=0)
-			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();x++){
+			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
 			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
 			}
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		for (int x=0;x<piles.size();x++){
+			
+			for (int i=0;i<piles.get(x).getCards().size();i++){
+			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
+				dropPile = x;
+			}
+		while(movePile.getCards().size()>0)
+			piles.get(x).getCards().add(movePile.getCards().remove(0));
+		}
+	}
 	}
 }
 

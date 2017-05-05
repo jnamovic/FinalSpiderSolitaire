@@ -257,12 +257,11 @@ public class SpiderSolitaire extends GraphicsProgram {
 	
 	public void mouseReleased(MouseEvent e) {
 		for (int x=0;x<piles.size();x++){
-				for (int i=0;i<piles.get(x).getCards().size();i++){
-			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
-				dropPile = x;
-			}
-		
-		}
+			
+				//if(((GCard)(piles.get(x).contains(new GPoint(e.getPoint()))){
+					dropPile = x;
+				
+			//}
 			while(movePile.getCards().size()>0)
 				piles.get(x).getCards().add(movePile.getCards().remove(0));
 	}

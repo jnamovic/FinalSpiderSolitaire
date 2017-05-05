@@ -77,10 +77,11 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 	private static int movePilePos;
 	private static int movePileNum;
 	private static int dropPile;
+	private static boolean pickUp=true;
 	JButton newgamebtn;//the button to start a new game
 	JComboBox<String> difficult;//the combo box to set the difficulty
 	JLabel communicate=new JLabel("Welcome to Solitaire");//a label used to send messages to the player
-	
+	GDeck moving;
 	Pack startPack;//the starting pack
 	private Pile movePile=new Pile(new Deck());
 	ArrayList<GDeck> packs=new ArrayList<GDeck>();//an ArrayList of the packs made at the beginning of the game
@@ -202,7 +203,12 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 	/**
 	 * catches any mouse interactions with the game
 	 */
-	public void mouseClicked(MouseEvent e) {
+//	public void mouseClicked(MouseEvent e) {
+		
+	
+		
+	
+	public void mousePressed(MouseEvent e) {
 		for (int x=0;x<packs.size();x++){
 			if(packs.get(x).contains(new GPoint(e.getPoint()))){
 				int dealnum=packs.get(packs.size()-1).getDeck().size();//sets dealnum equal to  
@@ -225,16 +231,7 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 		
 					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
 		}
-		
-		
-	}
-	
-	public void mouseDragged(MouseEvent e) {
-		
-		}
-	
-	
-	public void mousePressed(MouseEvent e) {
+		if(pickUp){
 		movePilePos=-1;
 		movePileNum=-1;
 		for (int x=0;x<piles.size();x++){
@@ -252,18 +249,31 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 		if(movePileNum>=0)
 			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
 			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
+			moving = new GDeck((Deck) movePile.getCards());
+			add(moving,new GPoint(e.getPoint()));
 			}
+		pickUp=false;
+		}
+		else
+		{
+			int dropPlacement =-1;
+			for (int x=0;x<piles.size();x++){
+				
+				for (int i=0;i<piles.get(x).getCards().size();i++){
+				if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
+					dropPlacement = x;
+				}
+				}
+				}
+			while(movePile.getCards().size()>0)
+				piles.get(dropPlacement).getCards().add(movePile.getCards().remove(0));
+			pickUp=true;
+		}
+	}
+	public void mouseMoved(MouseEvent e)
+	{
+		if(movePile.getCards().size()>0)
+			moving.setLocation(new GPoint(e.getPoint()));
 	}
 	
-	public void mouseReleased(MouseEvent e) {
-		for (int x=0;x<piles.size();x++){
-			
-				//if(((GCard)(piles.get(x).contains(new GPoint(e.getPoint()))){
-					dropPile = x;
-				
-			//}
-			while(movePile.getCards().size()>0)
-				piles.get(x).getCards().add(movePile.getCards().remove(0));
-	}
-	}
 }

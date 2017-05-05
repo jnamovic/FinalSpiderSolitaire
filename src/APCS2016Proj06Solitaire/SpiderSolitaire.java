@@ -230,11 +230,9 @@ public class SpiderSolitaire extends GraphicsProgram {
 	}
 	
 	public void mouseDragged(MouseEvent e) {
-		if(movePileNum>=0)
-		for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();x++){
-		movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
+		
 		}
-	}
+	
 	
 	public void mousePressed(MouseEvent e) {
 		movePilePos=-1;
@@ -259,8 +257,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	
 	public void mouseReleased(MouseEvent e) {
 		for (int x=0;x<piles.size();x++){
-			
-			for (int i=0;i<piles.get(x).getCards().size();i++){
+				for (int i=0;i<piles.get(x).getCards().size();i++){
 			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
 				dropPile = x;
 			}

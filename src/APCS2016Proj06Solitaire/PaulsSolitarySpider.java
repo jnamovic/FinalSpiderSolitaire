@@ -249,7 +249,7 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 		if(movePileNum>=0)
 			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
 			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
-			moving = new GDeck((Deck) movePile.getCards());
+			
 			
 			}
 		pickUp=false;
@@ -284,7 +284,9 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 	public void mouseMoved(MouseEvent e)
 	{
 		if(movePile.getCards().size()>0)
-			add(moving,new GPoint(e.getPoint()));
+		{
+			add(movePile,new GPoint(e.getPoint()));
+		}
 	}
 	
 }

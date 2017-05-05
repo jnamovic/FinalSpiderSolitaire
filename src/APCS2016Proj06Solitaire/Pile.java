@@ -21,4 +21,6 @@ public class Pile extends GCompound {
 	public void addCard(Card addition){
 		cardsinpile.add(addition);
 	}
+	
+	
 }

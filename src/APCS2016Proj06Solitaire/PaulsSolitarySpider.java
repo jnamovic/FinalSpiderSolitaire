@@ -250,7 +250,7 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
 			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
 			moving = new GDeck((Deck) movePile.getCards());
-			add(moving,new GPoint(e.getPoint()));
+			
 			}
 		pickUp=false;
 		}
@@ -265,15 +265,26 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 				}
 				}
 				}
+			if (dropPlacement>-1){
 			while(movePile.getCards().size()>0)
 				piles.get(dropPlacement).getCards().add(movePile.getCards().remove(0));
 			pickUp=true;
+			}
+		}
+		removeAll();
+		for(int x=0; x<piles.size();x++){
+					for(int i=0;i<piles.get(x).getCards().size();i++)
+					add((GObject)piles.get(x).getCards().get(i),(((GCard)piles.get(x).getCards().get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
+				}
+		for(int x=0;x<packs.size();x++){
+		
+					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
 		}
 	}
 	public void mouseMoved(MouseEvent e)
 	{
 		if(movePile.getCards().size()>0)
-			moving.setLocation(new GPoint(e.getPoint()));
+			add(moving,new GPoint(e.getPoint()));
 	}
 	
 }

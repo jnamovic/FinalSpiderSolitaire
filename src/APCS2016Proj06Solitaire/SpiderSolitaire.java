@@ -289,7 +289,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 			}
 			System.out.println("the drop pile before dealing is"+dropPile);
 			
-	}
+	}//
 		if(!(dropPile<0))
 			while(movePile.getCards().size()>0)
 				piles.get(dropPile).getCards().add(movePile.getCards().remove(0));

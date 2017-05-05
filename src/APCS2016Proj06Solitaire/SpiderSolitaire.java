@@ -77,6 +77,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	private static int movePilePos;
 	private static int movePileNum;
 	private static int dropPile;
+	private static boolean stop=false;
 	JButton newgamebtn;//the button to start a new game
 	JComboBox<String> difficult;//the combo box to set the difficulty
 	JLabel communicate=new JLabel("Welcome to Solitaire");//a label used to send messages to the player
@@ -230,11 +231,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	}
 	
 	public void mouseDragged(MouseEvent e) {
-		
-		}
-	
-	
-	public void mousePressed(MouseEvent e) {
+		if(!stop){
 		movePilePos=-1;
 		movePileNum=-1;
 		for (int x=0;x<piles.size();x++){
@@ -253,18 +250,72 @@ public class SpiderSolitaire extends GraphicsProgram {
 			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
 			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
 			}
+		stop=true;
+		}
+		System.out.println("pile position is "+movePilePos);
+		System.out.println("pile size when dragged is "+movePile.getCards().size());
+		}
+	
+	
+	public void mousePressed(MouseEvent e) {
+//		movePilePos=-1;
+//		movePileNum=-1;
+//		for (int x=0;x<piles.size();x++){
+//			
+//			for (int i=0;i<piles.get(x).getCards().size();i++){
+//			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
+//				
+//				movePilePos=i;
+//				movePileNum=x;
+//				
+//				
+//			}
+//			}	
+//		}
+//		if(movePileNum>=0)
+//			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
+//			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
+//			}
 	}
 	
 	public void mouseReleased(MouseEvent e) {
+		dropPile=-1;
 		for (int x=0;x<piles.size();x++){
 			
-				//if(((GCard)(piles.get(x).contains(new GPoint(e.getPoint()))){
+			for (int i=0;i<piles.get(x).getCards().size();i++){
+				if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
 					dropPile = x;
-				
-			//}
-			while(movePile.getCards().size()>0)
-				piles.get(x).getCards().add(movePile.getCards().remove(0));
+				}
+			}
+			System.out.println("the drop pile before dealing is"+dropPile);
+			
 	}
+		if(!(dropPile<0))
+			while(movePile.getCards().size()>0)
+				piles.get(dropPile).getCards().add(movePile.getCards().remove(0));
+			else{
+				while(movePile.getCards().size()>0)
+					piles.get(movePileNum).getCards().add(movePile.getCards().remove(0));
+			}
+		stop=false;
+		System.out.println("droppile position is "+dropPile);
+		System.out.println("pile size at release is "+movePile.getCards().size());
+		for (int x=0;x<piles.size();x++){
+			
+		System.out.println("pile number "+x+" has "+piles.get(x).getCards().size()+" cards");	
+				
+		}
+		
+		removeAll();
+		for(int x=0; x<piles.size();x++){
+					for(int i=0;i<piles.get(x).getCards().size();i++)
+					add((GObject)piles.get(x).getCards().get(i),(((GCard)piles.get(x).getCards().get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
+				}
+		for(int x=0;x<packs.size();x++){
+		
+					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
+		}
+		
 	}
 }
 

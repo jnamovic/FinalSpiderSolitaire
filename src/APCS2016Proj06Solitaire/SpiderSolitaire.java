@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 
 import acm.graphics.GObject;
 import acm.graphics.GPoint;
+import acm.graphics.GRect;
 import acm.graphics.GScalable;
 import acm.program.GraphicsProgram;
 
@@ -78,14 +79,16 @@ public class SpiderSolitaire extends GraphicsProgram {
 	private static int movePileNum;
 	private static int dropPile;
 	private static boolean stop=false;
+	
 	JButton newgamebtn;//the button to start a new game
 	JComboBox<String> difficult;//the combo box to set the difficulty
 	JLabel communicate=new JLabel("Welcome to Solitaire");//a label used to send messages to the player
 	
 	Pack startPack;//the starting pack
 	private Pile movePile=new Pile(new Deck());
-	ArrayList<GDeck> packs=new ArrayList<GDeck>();//an ArrayList of the packs made at the beginning of the game
-	ArrayList<Pile> piles=new ArrayList<Pile>();//an ArrayList of the card piles 
+	private ArrayList<GDeck> packs=new ArrayList<GDeck>();//an ArrayList of the packs made at the beginning of the game
+	private ArrayList<Pile> piles=new ArrayList<Pile>();//an ArrayList of the card piles 
+	private ArrayList<GRect> pileLocs=new ArrayList<GRect>();//an ArrayList of the rectangles where piles should go 
 	public static void main(String[] args) {
 		new SpiderSolitaire().start(args);
 	}
@@ -164,11 +167,21 @@ public class SpiderSolitaire extends GraphicsProgram {
 			piles.get(x%MAX_ROWS).getCards().add(startPack.deal());//adds the top card from the pack to a pile
 		}
 		
+		
+		
 		for(int x=0; x<piles.size();x++){//runs for the amount of piles
 			for(int i=0;i<piles.get(x).getCards().size();i++)//runs for the size of the deck in piles
 			add((GObject)piles.get(x).getCards().get(i),(((GCard)piles.get(x).getCards().get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
 		}
+		
+		for(int x=0;x<MAX_ROWS;x++){//adds decks to the "piles" ArrayList up to the maximum number of desired rows
 			
+			pileLocs.add(new GRect(((GCard)piles.get(x).getCards().get(0)).cardWidth(), ((GCard)piles.get(x).getCards().get(0)).cardHeight()));
+			add(pileLocs.get(x),(((GCard)piles.get(x).getCards().get(0)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE, 0);
+			pileLocs.get(x).setVisible(false);
+			
+		}
+		
 		makePacks();
 		
 	}
@@ -228,6 +241,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 		}
 		
 		
+		
 	}
 	
 	public void mouseDragged(MouseEvent e) {
@@ -264,28 +278,8 @@ public class SpiderSolitaire extends GraphicsProgram {
 		}
 	
 	
-	public void mousePressed(MouseEvent e) {
-//		movePilePos=-1;
-//		movePileNum=-1;
-//		for (int x=0;x<piles.size();x++){
-//			
-//			for (int i=0;i<piles.get(x).getCards().size();i++){
-//			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
-//				
-//				movePilePos=i;
-//				movePileNum=x;
-//				
-//				
-//			}
-//			}	
-//		}
-//		if(movePileNum>=0)
-//			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
-//			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
-//			}
-	}
-	
 	public void mouseReleased(MouseEvent e) {
+		if(movePile.getCards().size()>0){
 		dropPile=-1;
 		for (int x=0;x<piles.size();x++){//checks if the cards can be put down
 			
@@ -297,22 +291,27 @@ public class SpiderSolitaire extends GraphicsProgram {
 						dropPile = x;
 					}
 				}
-				else{}
+				
 			}
-			System.out.println("the drop pile before dealing is"+dropPile);
+			if(piles.get(x).getCards().size()==0&&pileLocs.get(x).contains(new GPoint(e.getPoint()))){
+				dropPile = x;
+			}
+			
 			
 		}
 		
 		if(!(dropPile<0)){//if the pile is valid
 			while(movePile.getCards().size()>0)//add all the moving cards to it
 				piles.get(dropPile).getCards().add(movePile.getCards().remove(0));
-				((GCard)piles.get(movePileNum).getCards().get(piles.get(movePileNum).getCards().size()-1)).turnFaceUp();}
+			if(piles.get(movePileNum).getCards().size()>0)	
+			((GCard)piles.get(movePileNum).getCards().get(piles.get(movePileNum).getCards().size()-1)).turnFaceUp();}
 		else{
 				while(movePile.getCards().size()>0)//else throw them back where they were
 					piles.get(movePileNum).getCards().add(movePile.getCards().remove(0));
 			}
+		}
 		stop=false;
-		
+	
 		
 		// refreshing the screen
 		removeAll();

@@ -252,10 +252,18 @@ public class SpiderSolitaire extends GraphicsProgram {
 			
 			for (int i=0;i<piles.get(x).getCards().size();i++){
 			if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
-				
+				Suit checksuit = ((GCard)(piles.get(x).getCards().get(i))).getSuit();
 				movePilePos=i;
 				movePileNum=x;
+				for (int y=i;y<piles.get(x).getCards().size();y++){
+					
+					if(!(((GCard)(piles.get(x).getCards().get(y))).getSuit().equals(checksuit))){
+						movePilePos=-1;
+						movePileNum=-1;
+					}
+					
 				
+				}
 				
 			}
 			}	

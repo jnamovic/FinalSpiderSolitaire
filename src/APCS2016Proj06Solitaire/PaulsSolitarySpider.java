@@ -87,7 +87,7 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 	ArrayList<GDeck> packs=new ArrayList<GDeck>();//an ArrayList of the packs made at the beginning of the game
 	ArrayList<Pile> piles=new ArrayList<Pile>();//an ArrayList of the card piles 
 	public static void main(String[] args) {
-		new SpiderSolitaire().start(args);
+		new PaulsSolitarySpider().start(args);
 	}
 	//gfs
 	/**
@@ -285,7 +285,11 @@ public class PaulsSolitarySpider extends GraphicsProgram {
 	{
 		if(movePile.getCards().size()>0)
 		{
-			add(movePile,new GPoint(e.getPoint()));
+			for(int i=0;i<movePile.getCards().size();i++){
+				add((GObject)movePile.getCards().get(i),
+						(e.getX()-((GCard)movePile.getCards().get(i)).cardWidth()/2),
+						CARD_SPACE*(i)+e.getY());//draws the card to the mat
+			}
 		}
 	}
 	

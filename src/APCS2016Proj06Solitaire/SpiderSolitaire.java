@@ -250,10 +250,17 @@ public class SpiderSolitaire extends GraphicsProgram {
 			for(int x=movePilePos;x<piles.get(movePileNum).getCards().size();){
 			movePile.addCard((Card)piles.get(movePileNum).getCards().remove(x));
 			}
+		
 		stop=true;
 		}
-		System.out.println("pile position is "+movePilePos);
-		System.out.println("pile size when dragged is "+movePile.getCards().size());
+		if(movePile.getCards().size()>0)
+		{
+			for(int i=0;i<movePile.getCards().size();i++){
+				add((GObject)movePile.getCards().get(i),
+						(e.getX()-((GCard)movePile.getCards().get(i)).cardWidth()/2),
+						CARD_SPACE*(i)+e.getY());//draws the card to the mat
+			}
+		}
 		}
 	
 	
@@ -280,32 +287,34 @@ public class SpiderSolitaire extends GraphicsProgram {
 	
 	public void mouseReleased(MouseEvent e) {
 		dropPile=-1;
-		for (int x=0;x<piles.size();x++){
+		for (int x=0;x<piles.size();x++){//checks if the cards can be put down
 			
 			for (int i=0;i<piles.get(x).getCards().size();i++){
 				if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
-					dropPile = x;
+					if(((GCard)(piles.get(x).getCards().get(piles.get(x).getCards().size()-1))).getRank().toNum()==
+							((GCard)(movePile.getCards().get(0))).getRank().toNum()+1){ 
+					//this should be if the rank of the card is one more than the rank of the top card in move pile
+						dropPile = x;
+					}
 				}
+				else{}
 			}
 			System.out.println("the drop pile before dealing is"+dropPile);
 			
-	}
-		if(!(dropPile<0))
-			while(movePile.getCards().size()>0)
+		}
+		
+		if(!(dropPile<0)){//if the pile is valid
+			while(movePile.getCards().size()>0)//add all the moving cards to it
 				piles.get(dropPile).getCards().add(movePile.getCards().remove(0));
-			else{
-				while(movePile.getCards().size()>0)
+				((GCard)piles.get(movePileNum).getCards().get(piles.get(movePileNum).getCards().size()-1)).turnFaceUp();}
+		else{
+				while(movePile.getCards().size()>0)//else throw them back where they were
 					piles.get(movePileNum).getCards().add(movePile.getCards().remove(0));
 			}
 		stop=false;
-		System.out.println("droppile position is "+dropPile);
-		System.out.println("pile size at release is "+movePile.getCards().size());
-		for (int x=0;x<piles.size();x++){
-			
-		System.out.println("pile number "+x+" has "+piles.get(x).getCards().size()+" cards");	
-				
-		}
 		
+		
+		// refreshing the screen
 		removeAll();
 		for(int x=0; x<piles.size();x++){
 					for(int i=0;i<piles.get(x).getCards().size();i++)

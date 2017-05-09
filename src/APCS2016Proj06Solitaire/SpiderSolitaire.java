@@ -219,7 +219,12 @@ public class SpiderSolitaire extends GraphicsProgram {
 		{
 			if(stackNum(x))
 			{
-				
+				int stop = piles.get(x).getCards().size()-13;
+				GCard vanquished = new GCard(Rank.KING, ((Card) piles.get(x).getCards().get(piles.get(x).getCards().size())).getSuit());
+				for(int i = piles.get(x).getCards().size()-1;i>stop;i--)
+				{
+					piles.get(x).getCards().remove(i);
+				}
 			}
 		}
 	}
@@ -231,7 +236,8 @@ public class SpiderSolitaire extends GraphicsProgram {
 		{
 			for(int i = piles.get(x).getCards().size()-2;i>piles.get(x).getCards().size()-13;i--)
 			{
-				if(((Card) piles.get(x).getCards().get(i)).getRank().toNum()!=((Card) piles.get(x).getCards().get(i+1)).getRank().toNum())
+				if(((Card) piles.get(x).getCards().get(i)).getRank().toNum()!=((Card) piles.get(x).getCards().get(i+1)).getRank().toNum()
+						&&((Card) piles.get(x).getCards().get(i)).getSuit()!=((Card) piles.get(x).getCards().get(i+1)).getSuit())
 				{
 					inOrder = false;
 				}

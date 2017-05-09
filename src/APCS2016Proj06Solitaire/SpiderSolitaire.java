@@ -213,6 +213,32 @@ public class SpiderSolitaire extends GraphicsProgram {
 			add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
 		}
 	}
+	private void testStack()
+	{
+		for(int x = 0; x<piles.size();x++)
+		{
+			if(stackNum(x))
+			{
+				
+			}
+		}
+	}
+	private boolean stackNum(int x)
+	{
+		boolean inOrder=true;
+		if((((Card) (piles.get(x).getCards().get(piles.get(x).getCards().size()))).getRank().toNum() == 1)
+				&&piles.get(x).getCards().size()>=13)
+		{
+			for(int i = piles.get(x).getCards().size()-2;i>piles.get(x).getCards().size()-13;i--)
+			{
+				if(((Card) piles.get(x).getCards().get(i)).getRank().toNum()!=((Card) piles.get(x).getCards().get(i+1)).getRank().toNum())
+				{
+					inOrder = false;
+				}
+			}
+		}
+		return inOrder;
+	}
 	/**
 	 * catches any mouse interactions with the game
 	 */

@@ -321,7 +321,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 		stop=false;
 	
 		
-		// refreshing the screen
+		// refreshing the screen asdfasddfasdfasdfdasdfadsfsdd
 		removeAll();
 		for(int x=0; x<piles.size();x++){
 					for(int i=0;i<piles.get(x).getCards().size();i++)

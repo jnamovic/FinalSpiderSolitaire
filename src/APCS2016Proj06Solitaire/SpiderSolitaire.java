@@ -89,6 +89,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	private ArrayList<GDeck> packs=new ArrayList<GDeck>();//an ArrayList of the packs made at the beginning of the game
 	private ArrayList<Pile> piles=new ArrayList<Pile>();//an ArrayList of the card piles 
 	private ArrayList<GRect> pileLocs=new ArrayList<GRect>();//an ArrayList of the rectangles where piles should go 
+	private ArrayList<GCard> wonAndDone = new ArrayList<GCard>();
 	public static void main(String[] args) {
 		new SpiderSolitaire().start(args);
 	}
@@ -220,29 +221,51 @@ public class SpiderSolitaire extends GraphicsProgram {
 			if(stackNum(x))
 			{
 				int stop = piles.get(x).getCards().size()-13;
-				GCard vanquished = new GCard(Rank.KING, ((Card) piles.get(x).getCards().get(piles.get(x).getCards().size())).getSuit());
+				GCard vanquished = new GCard(Rank.KING, ((Card) piles.get(x).getCards().get(piles.get(x).getCards().size()-1)).getSuit());
 				for(int i = piles.get(x).getCards().size()-1;i>stop;i--)
 				{
 					piles.get(x).getCards().remove(i);
 				}
+				vanquished.turnFaceUp();
+				wonAndDone.add(vanquished);
+				add(vanquished,15*wonAndDone.size(),400);
+				didYaWin();
 			}
 		}
+	}
+	private void didYaWin()
+	{
+		boolean done=true;
+		for(int i = 0; i<piles.size(); i++)
+		{
+			if(piles.get(i).getCards().size() != 0)
+				done=false;
+		}
+		if(packs.size()>0)
+			done = false;
+		if(done)
+			communicate.setText("Congratulations, you won!");
 	}
 	private boolean stackNum(int x)
 	{
 		boolean inOrder=true;
-		if((((Card) (piles.get(x).getCards().get(piles.get(x).getCards().size()))).getRank().toNum() == 1)
-				&&piles.get(x).getCards().size()>=13)
+		//if(piles.get(x).getCards().size()>0)
+		if(piles.get(x).getCards().size()>=13&&
+				(((Card) (piles.get(x).getCards().get(piles.get(x).getCards().size()-1))).getRank().toNum() == 1))
 		{
+			System.out.println("It's an ace and big enough!");
 			for(int i = piles.get(x).getCards().size()-2;i>piles.get(x).getCards().size()-13;i--)
 			{
 				if(((Card) piles.get(x).getCards().get(i)).getRank().toNum()!=((Card) piles.get(x).getCards().get(i+1)).getRank().toNum()
 						&&((Card) piles.get(x).getCards().get(i)).getSuit()!=((Card) piles.get(x).getCards().get(i+1)).getSuit())
 				{
 					inOrder = false;
+					
 				}
 			}
 		}
+		else
+			inOrder=false;
 		return inOrder;
 	}
 	/**
@@ -256,6 +279,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 					packs.get(packs.size()-1).getDeck().get(0).turnFaceUp();	//turns the card about to be dealt face up
 					piles.get(i).getCards().add(packs.get(packs.size()-1).getDeck().deal());//adds the top card from the deck selected to each pile
 				}
+				testStack();
 				packs.remove(packs.size()-1);	
 				goneYet=true;
 				if(goneYet)
@@ -280,6 +304,9 @@ public class SpiderSolitaire extends GraphicsProgram {
 		if(!stop){
 		movePilePos=-1;
 		movePileNum=-1;
+		goneYet=true;
+		if(goneYet)
+			newgamebtn.setText("Give Up");
 		for (int x=0;x<piles.size();x++){
 			
 			for (int i=0;i<piles.get(x).getCards().size();i++){
@@ -288,13 +315,22 @@ public class SpiderSolitaire extends GraphicsProgram {
 				movePilePos=i;
 				movePileNum=x;
 				for (int y=i;y<piles.get(x).getCards().size();y++){
-					
 					if(!(((GCard)(piles.get(x).getCards().get(y))).getSuit().equals(checksuit))){
+						 //new as of today
 						movePilePos=-1;
 						movePileNum=-1;
+				
 					}
 					
 				
+				}
+				for(int z = i; z<piles.get(x).getCards().size()-1;z++)
+				{
+					if(((GCard) piles.get(x).getCards().get(z)).getRank().toNum()!=((GCard) piles.get(x).getCards().get(z+1)).getRank().toNum()+1)
+					{
+						movePilePos=-1;
+						movePileNum=-1;
+					}
 				}
 				
 			}
@@ -329,6 +365,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 							((GCard)(movePile.getCards().get(0))).getRank().toNum()+1){ 
 					//this should be if the rank of the card is one more than the rank of the top card in move pile
 						dropPile = x;
+						testStack(); //throw in graphical reset
 					}
 				}
 				

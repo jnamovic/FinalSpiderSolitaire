@@ -220,12 +220,13 @@ public class SpiderSolitaire extends GraphicsProgram {
 		{
 			if(stackNum(x))
 			{
-				int stop = piles.get(x).getCards().size()-13;
+				int stop = piles.get(x).getCards().size()-14;
 				GCard vanquished = new GCard(Rank.KING, ((Card) piles.get(x).getCards().get(piles.get(x).getCards().size()-1)).getSuit());
 				for(int i = piles.get(x).getCards().size()-1;i>stop;i--)
 				{
 					piles.get(x).getCards().remove(i);
 				}
+				((GCard) piles.get(x).getCards().get(piles.get(x).getCards().size()-1)).turnFaceUp();
 				vanquished.turnFaceUp();
 				wonAndDone.add(vanquished);
 				add(vanquished,15*wonAndDone.size(),400);

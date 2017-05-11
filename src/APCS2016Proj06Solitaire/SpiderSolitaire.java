@@ -226,6 +226,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 				{
 					piles.get(x).getCards().remove(i);
 				}
+				if(piles.get(x).getCards().size()>0)
 				((GCard) piles.get(x).getCards().get(piles.get(x).getCards().size()-1)).turnFaceUp();
 				vanquished.turnFaceUp();
 				wonAndDone.add(vanquished);

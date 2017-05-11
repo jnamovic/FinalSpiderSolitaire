@@ -255,7 +255,10 @@ public class SpiderSolitaire extends GraphicsProgram {
 		boolean filled = true;
 		for(int i =0; i<piles.size();i++)
 			if(piles.get(i).getCards().size()<1)
+			{
 				filled=false;
+				communicate.setText("You can't deal right now!");
+			}
 		return filled;
 	}
 	private boolean stackNum(int x)

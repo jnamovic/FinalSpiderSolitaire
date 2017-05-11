@@ -250,6 +250,14 @@ public class SpiderSolitaire extends GraphicsProgram {
 		if(done)
 			communicate.setText("Congratulations, you won!");
 	}
+	private boolean emptyPiles()
+	{
+		boolean filled = true;
+		for(int i =0; i<piles.size();i++)
+			if(piles.get(i).getCards().size()<1)
+				filled=false;
+		return filled;
+	}
 	private boolean stackNum(int x)
 	{
 		boolean inOrder=true;
@@ -277,7 +285,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 	 */
 	public void mouseClicked(MouseEvent e) {
 		for (int x=0;x<packs.size();x++){
-			if(packs.get(x).contains(new GPoint(e.getPoint()))){
+			if(packs.get(x).contains(new GPoint(e.getPoint()))&& emptyPiles()){
 				int dealnum=packs.get(packs.size()-1).getDeck().size();//sets dealnum equal to  
 				for(int i=0; i<dealnum; i++){//runs a for loop for however cards are meant to be dealt
 					packs.get(packs.size()-1).getDeck().get(0).turnFaceUp();	//turns the card about to be dealt face up

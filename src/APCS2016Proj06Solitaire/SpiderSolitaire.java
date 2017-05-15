@@ -111,6 +111,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 				else
 					communicate.setText("Go Get em Tiger");
 	        		packs.clear();// clears the packs ArrayList
+	        		wonAndDone.clear();
 	        		piles.clear();//clears the piles ArrayList
 	        		removeAll();//removes all objects from the canvas
 	        		newgamebtn.setText("New Game");

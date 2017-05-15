@@ -417,7 +417,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
 		}
 		for(int i=0; i<wonAndDone.size();i++)
-			add(wonAndDone.get(i),(i+2)*packs.get(i).getWidth()/2,getHeight()*.75);
+			add(wonAndDone.get(i),(i+2)*packs.get(i).getWidth()/2-100,getHeight()*.75);
 		
 	}
 }

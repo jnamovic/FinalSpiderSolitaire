@@ -227,12 +227,13 @@ public class SpiderSolitaire extends GraphicsProgram {
 				{
 					disCard.add((GCard) piles.get(x).getCards().remove(i));
 				}
-				System.out.println(disCard);
+				//System.out.println(disCard);
 				if(piles.get(x).getCards().size()>0)
 				((GCard) piles.get(x).getCards().get(piles.get(x).getCards().size()-1)).turnFaceUp();
 				vanquished.turnFaceUp();
+				communicate.setText("That's a flush cleared");
 				wonAndDone.add(vanquished);
-				add(vanquished,15*wonAndDone.size(),400);
+				add(wonAndDone.get(0),200,200);
 				didYaWin();
 			}
 		}
@@ -403,6 +404,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 			}
 		}
 		stop=false;
+		testStack();
 	
 		
 		// refreshing the screen asdfasddfasdfasdfdasdfadsfsdd

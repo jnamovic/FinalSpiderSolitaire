@@ -299,6 +299,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 				goneYet=true;
 				if(goneYet)
 					newgamebtn.setText("Give Up");
+				break;
 			}	
 		}
 		refreshScreen();

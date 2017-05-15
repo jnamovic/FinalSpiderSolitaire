@@ -268,7 +268,6 @@ public class SpiderSolitaire extends GraphicsProgram {
 		if(piles.get(x).getCards().size()>=13&&
 				(((Card) (piles.get(x).getCards().get(piles.get(x).getCards().size()-1))).getRank().toNum() == 1))
 		{
-			System.out.println("It's an ace and big enough!");
 			for(int i = piles.get(x).getCards().size()-2;i>piles.get(x).getCards().size()-13;i--)
 			{
 				if(((Card) piles.get(x).getCards().get(i)).getRank().toNum()!=((Card) piles.get(x).getCards().get(i+1)).getRank().toNum()+1
@@ -301,6 +300,13 @@ public class SpiderSolitaire extends GraphicsProgram {
 					newgamebtn.setText("Give Up");
 			}	
 		}
+		refreshScreen();
+		
+		
+		
+	}
+	public void refreshScreen()
+	{
 		removeAll();
 		for(int x=0; x<piles.size();x++){
 					for(int i=0;i<piles.get(x).getCards().size();i++)
@@ -310,11 +316,10 @@ public class SpiderSolitaire extends GraphicsProgram {
 		
 					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
 		}
+		for(int i=0; i<wonAndDone.size();i++)
+			add(wonAndDone.get(i),(i+2)*packs.get(i).getWidth()/2-100,getHeight()*.75);
 		
-		
-		
-	}
-	
+		}
 	public void mouseDragged(MouseEvent e) {
 		if(!stop){
 		movePilePos=-1;
@@ -405,20 +410,8 @@ public class SpiderSolitaire extends GraphicsProgram {
 		stop=false;
 		testStack();
 	
-		
+		refreshScreen();
 		// refreshing the screen asdfasddfasdfasdfdasdfadsfsdd
-		removeAll();
-		for(int x=0; x<piles.size();x++){
-					for(int i=0;i<piles.get(x).getCards().size();i++)
-					add((GObject)piles.get(x).getCards().get(i),(((GCard)piles.get(x).getCards().get(i)).cardWidth()+ROW_SPACE)*(x)+ROW_SPACE,CARD_SPACE*(i));//draws the card to the mat
-				}
-		for(int x=0;x<packs.size();x++){
-		
-					add(packs.get(x), getWidth()-(x+2)*packs.get(x).getWidth()/2,getHeight()*.75);
-		}
-		for(int i=0; i<wonAndDone.size();i++)
-			add(wonAndDone.get(i),(i+2)*packs.get(i).getWidth()/2-100,getHeight()*.75);
-		
 	}
 }
 

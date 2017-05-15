@@ -376,12 +376,12 @@ public class SpiderSolitaire extends GraphicsProgram {
 			
 			for (int i=0;i<piles.get(x).getCards().size();i++){
 				if(((GCard)(piles.get(x).getCards().get(i))).contains(new GPoint(e.getPoint()))){
-					//if(((GCard)(piles.get(x).getCards().get(piles.get(x).getCards().size()-1))).getRank().toNum()==
-							//((GCard)(movePile.getCards().get(0))).getRank().toNum()+1){ 
+					if(((GCard)(piles.get(x).getCards().get(piles.get(x).getCards().size()-1))).getRank().toNum()==
+							((GCard)(movePile.getCards().get(0))).getRank().toNum()+1){ 
 					//this should be if the rank of the card is one more than the rank of the top card in move pile
 						dropPile = x;
 						testStack(); //throw in graphical reset
-					//}
+					}
 				}
 				
 			}

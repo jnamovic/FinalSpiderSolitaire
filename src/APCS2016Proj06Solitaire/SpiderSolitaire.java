@@ -249,7 +249,11 @@ public class SpiderSolitaire extends GraphicsProgram {
 		if(packs.size()>0)
 			done = false;
 		if(done)
+		{
 			communicate.setText("Congratulations, you won!");
+			goneYet=false;
+			newgamebtn.setText("New Game");
+		}
 	}
 	private boolean emptyPiles()
 	{

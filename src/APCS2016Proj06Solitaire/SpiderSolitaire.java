@@ -281,7 +281,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 					inOrder = false;
 					return inOrder;
 				}
-			}
+			}//
 		}
 		else
 			inOrder=false;

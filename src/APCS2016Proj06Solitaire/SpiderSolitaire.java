@@ -273,7 +273,7 @@ public class SpiderSolitaire extends GraphicsProgram {
 		if(piles.get(x).getCards().size()>=13&&
 				(((Card) (piles.get(x).getCards().get(piles.get(x).getCards().size()-1))).getRank().toNum() == 1))
 		{
-			for(int i = piles.get(x).getCards().size()-2;i>piles.get(x).getCards().size()-13;i--)
+			for(int i = piles.get(x).getCards().size()-2;i>piles.get(x).getCards().size()-14;i--)
 			{
 				if(((Card) piles.get(x).getCards().get(i)).getRank().toNum()!=((Card) piles.get(x).getCards().get(i+1)).getRank().toNum()+1
 						||((Card) piles.get(x).getCards().get(i)).getSuit()!=((Card) piles.get(x).getCards().get(i+1)).getSuit())
